@@ -114,6 +114,29 @@ class MockNovaPayApi {
     }
   }
 
+  /// Promotes an offline pending row instead of appending a duplicate on sync.
+  Future<WalletTransaction> _promotePendingOrAppend({
+    required String idempotencyKey,
+    required WalletTransaction completedTx,
+  }) async {
+    final txs = getTransactions().reversed.toList();
+    final pendingIndex = txs.indexWhere(
+      (t) => t.idempotencyKey == idempotencyKey && t.isPending,
+    );
+    if (pendingIndex >= 0) {
+      final promoted = txs[pendingIndex].copyWith(
+        isPending: false,
+        createdAt: completedTx.createdAt,
+      );
+      txs[pendingIndex] = promoted;
+      await _saveTransactions(txs);
+      return promoted;
+    }
+    txs.add(completedTx);
+    await _saveTransactions(txs);
+    return completedTx;
+  }
+
   Future<WalletTransaction> sendMoney({
     required String idempotencyKey,
     required String recipientName,
@@ -142,20 +165,22 @@ class MockNovaPayApi {
     final newBalance = getBalanceKobo() - amountKobo;
     await _storage.walletBox.put(_balanceKey, newBalance);
 
+    final now = _clock.now();
     final tx = WalletTransaction(
       id: _uuid.v4(),
       title: 'Send to $recipientName',
       amountKobo: -amountKobo,
-      createdAt: _clock.now(),
+      createdAt: now,
       type: TransactionType.send,
       idempotencyKey: idempotencyKey,
     );
 
-    final txs = getTransactions().reversed.toList();
-    txs.add(tx);
-    await _saveTransactions(txs);
+    final result = await _promotePendingOrAppend(
+      idempotencyKey: idempotencyKey,
+      completedTx: tx,
+    );
     await _markKeyProcessed(idempotencyKey);
-    return tx;
+    return result;
   }
 
   Future<SavingsGoal> contributeToGoal({
@@ -186,18 +211,18 @@ class MockNovaPayApi {
     goals[index] = updated;
     await _saveGoals(goals);
 
-    final txs = getTransactions().reversed.toList();
-    txs.add(
-      WalletTransaction(
+    final now = _clock.now();
+    await _promotePendingOrAppend(
+      idempotencyKey: idempotencyKey,
+      completedTx: WalletTransaction(
         id: _uuid.v4(),
         title: 'Save: ${updated.name}',
         amountKobo: -amountKobo,
-        createdAt: _clock.now(),
+        createdAt: now,
         type: TransactionType.contribution,
         idempotencyKey: idempotencyKey,
       ),
     );
-    await _saveTransactions(txs);
     await _markKeyProcessed(idempotencyKey);
     return updated;
   }

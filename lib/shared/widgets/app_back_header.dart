@@ -43,18 +43,20 @@ class AppBackHeader extends StatelessWidget {
           ),
         ),
         SizedBox(width: 4.w),
-        Semantics(
-          header: true,
-          child: Text(
-            title,
-            style: AppTextStyles.textXlSemibold.copyWith(
-              color: AppColors.textPrimary,
+        Expanded(
+          child: Semantics(
+            header: true,
+            child: Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.textXlSemibold.copyWith(
+                color: AppColors.textPrimary,
+              ),
             ),
           ),
         ),
-        if (trailing != null) ...[
-          Spacer(),
-
+        if (trailing != null)
           Text(
             trailing!,
             textAlign: TextAlign.end,
@@ -62,7 +64,6 @@ class AppBackHeader extends StatelessWidget {
               color: AppColors.textSecondary,
             ),
           ),
-        ],
       ],
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nova/core/constants/app_constants.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:nova/core/services/connectivity_service.dart';
@@ -31,6 +32,9 @@ void main() {
   });
 
   testWidgets('Send money flow creates idempotency key on confirm screen', (tester) async {
+    await tester.binding.setSurfaceSize(AppConstants.designSize);
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
     await pumpNovaApp(tester, initialRoute: SendRecipientScreen.path);
     await tester.pumpAndSettle();
 

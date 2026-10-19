@@ -7,6 +7,7 @@ import 'package:nova/core/theme/app_colors.dart';
 import 'package:nova/core/theme/app_text_styles.dart';
 import 'package:nova/features/send_money/domain/validators/send_validators.dart';
 import 'package:nova/features/send_money/presentation/controllers/send_money_controller.dart';
+import 'package:nova/features/send_money/presentation/widgets/bank_select_bottom_sheet.dart';
 import 'package:nova/shared/widgets/app_back_header.dart';
 import 'package:nova/shared/widgets/app_select_field.dart';
 import 'package:nova/shared/widgets/app_text_field.dart';
@@ -50,7 +51,11 @@ class SendRecipientScreen extends GetView<SendMoneyController> {
                           label: AppStrings.bank,
                           value: controller.selectedBank.value,
                           leadingIcon: Icons.account_balance_outlined,
-                          onTap: () {},
+                          onTap: () => showBankSelectBottomSheet(
+                            context,
+                            selected: controller.selectedBank.value,
+                            onSelected: (bank) => controller.selectedBank.value = bank,
+                          ),
                         ),
                       ),
                       SizedBox(height: 16.h),

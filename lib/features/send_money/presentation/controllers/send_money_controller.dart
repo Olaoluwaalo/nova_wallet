@@ -14,6 +14,7 @@ import 'package:nova/features/send_money/presentation/pages/send_pending_screen.
 import 'package:nova/features/wallet/data/datasources/mock_novapay_api.dart';
 import 'package:nova/features/wallet/domain/repository/wallet_repository_interface.dart';
 import 'package:nova/features/wallet/presentation/controllers/wallet_controller.dart';
+import 'package:nova/features/send_money/domain/constants/nigerian_banks.dart';
 import 'package:nova/features/wallet/presentation/pages/wallet_home_screen.dart';
 import 'package:nova/core/time/uuid_generator.dart';
 
@@ -54,7 +55,7 @@ class SendMoneyController extends GetxController {
   final RxBool isSubmitting = false.obs;
   final RxInt amountKobo = 0.obs;
   final RxInt availableKobo = 0.obs;
-  final RxString selectedBank = 'Access Bank'.obs;
+  final RxString selectedBank = NigerianBanks.defaultBank.obs;
 
   String? _idempotencyKey;
   String? _lastRecipientSignature;
