@@ -45,6 +45,13 @@ void main() {
     final pending = await Get.find<OfflineQueueRepository>().getPendingItems();
     expect(pending, isEmpty);
 
+    final matching = hive.api
+        .getTransactions()
+        .where((t) => t.idempotencyKey == idempotencyKey)
+        .toList();
+    expect(matching, hasLength(1));
+    expect(matching.single.isPending, isFalse);
+
     Get.reset();
     await hive.dispose();
   });

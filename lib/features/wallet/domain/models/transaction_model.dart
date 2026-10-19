@@ -43,12 +43,13 @@ class WalletTransaction {
 
   WalletTransaction copyWith({
     bool? isPending,
+    DateTime? createdAt,
   }) {
     return WalletTransaction(
       id: id,
       title: title,
       amountKobo: amountKobo,
-      createdAt: createdAt,
+      createdAt: createdAt ?? this.createdAt,
       type: type,
       isPending: isPending ?? this.isPending,
       idempotencyKey: idempotencyKey,
