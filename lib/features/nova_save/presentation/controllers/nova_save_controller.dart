@@ -134,7 +134,10 @@ class NovaSaveController extends GetxController {
       showNovaMessage('Invalid date', dateError);
       return;
     }
-    if (!(createGoalFormKey.currentState?.validate() ?? false)) return;
+    if (!(createGoalFormKey.currentState?.validate() ?? false)) {
+      showNovaMessage('Invalid', 'Please fill in all required fields.');
+      return;
+    }
     final targetKobo = KoboFormatting.parseNairaInput(targetAmountController.text);
     if (targetKobo == null || targetKobo <= 0) {
       showNovaMessage('Invalid target', 'Enter a valid target amount');

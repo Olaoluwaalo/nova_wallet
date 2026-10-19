@@ -61,21 +61,25 @@ class SendConfirmScreen extends GetView<SendMoneyController> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 16.h),
+              padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 0.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Obx(
                     () => PrimaryButton(
                       label: AppStrings.confirmAndSend,
-                      onPressed: controller.isSubmitting.value ? null : controller.confirmSend,
+                      onPressed: controller.isSubmitting.value
+                          ? null
+                          : controller.confirmSend,
                     ),
                   ),
                   SizedBox(height: 4.h),
                   TextActionButton(
                     label: AppStrings.cancel,
                     color: AppColors.textSecondary,
-                    onPressed: () => Get.until((route) => route.settings.name == WalletHomeScreen.path),
+                    onPressed: () => Get.until(
+                      (route) => route.settings.name == WalletHomeScreen.path,
+                    ),
                   ),
                 ],
               ),
@@ -118,32 +122,40 @@ class _SummaryCard extends StatelessWidget {
           Text(
             AppStrings.youAreSending,
             textAlign: TextAlign.center,
-            style: AppTextStyles.textXsRegular.copyWith(color: AppColors.textSecondary),
+            style: AppTextStyles.textXsRegular.copyWith(
+              color: AppColors.textSecondary,
+            ),
           ),
           SizedBox(height: 2.h),
           FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
               amountKobo.toNaira(),
-              style: AppTextStyles.displayMdSemibold.copyWith(color: AppColors.primary),
+              style: AppTextStyles.displayMdSemibold.copyWith(
+                color: AppColors.primary,
+              ),
             ),
           ),
           SizedBox(height: 16.h),
           const Divider(height: 1, color: AppColors.divider),
           SizedBox(height: 16.h),
           _SummaryRow(label: AppStrings.to, value: recipientName),
-          SizedBox(height: 12.h),
+          SizedBox(height: 16.h),
           _SummaryRow(label: AppStrings.account, value: accountLine),
-          SizedBox(height: 12.h),
+          SizedBox(height: 16.h),
           const _SummaryRow(label: AppStrings.from, value: 'NovaWallet'),
-          SizedBox(height: 12.h),
+          SizedBox(height: 16.h),
           _SummaryRow(label: AppStrings.fee, value: feeKobo.toNaira()),
-          SizedBox(height: 12.h),
+          SizedBox(height: 16.h),
           _SummaryRow(label: AppStrings.reference, value: reference),
           SizedBox(height: 16.h),
           const Divider(height: 1, color: AppColors.divider),
           SizedBox(height: 16.h),
-          _SummaryRow(label: AppStrings.total, value: total.toNaira(), emphasized: true),
+          _SummaryRow(
+            label: AppStrings.total,
+            value: total.toNaira(),
+            emphasized: true,
+          ),
         ],
       ),
     );
@@ -169,16 +181,26 @@ class _SummaryRow extends StatelessWidget {
         children: [
           Text(
             label,
-            style: (emphasized ? AppTextStyles.textSmSemibold : AppTextStyles.textSmRegular)
-                .copyWith(color: emphasized ? AppColors.textPrimary : AppColors.textSecondary),
+            style:
+                (emphasized
+                        ? AppTextStyles.textSmSemibold
+                        : AppTextStyles.textSmRegular)
+                    .copyWith(
+                      color: emphasized
+                          ? AppColors.textPrimary
+                          : AppColors.textSecondary,
+                    ),
           ),
           SizedBox(width: 16.w),
           Expanded(
             child: Text(
               value,
               textAlign: TextAlign.end,
-              style: (emphasized ? AppTextStyles.textMdSemibold : AppTextStyles.textSmMedium)
-                  .copyWith(color: AppColors.textPrimary),
+              style:
+                  (emphasized
+                          ? AppTextStyles.textMdSemibold
+                          : AppTextStyles.textSmMedium)
+                      .copyWith(color: AppColors.textPrimary),
             ),
           ),
         ],
@@ -203,13 +225,19 @@ class _SafeToRetryNote extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(top: 1.h),
-            child: Icon(Icons.lock_outline_rounded, size: 20.sp, color: AppColors.primaryDark),
+            child: Icon(
+              Icons.lock_outline_rounded,
+              size: 20.sp,
+              color: AppColors.primaryDark,
+            ),
           ),
           SizedBox(width: 10.w),
           Expanded(
             child: Text(
               AppStrings.safeToRetryNote,
-              style: AppTextStyles.textXsRegular.copyWith(color: AppColors.primaryDark),
+              style: AppTextStyles.textXsRegular.copyWith(
+                color: AppColors.primaryDark,
+              ),
             ),
           ),
         ],
