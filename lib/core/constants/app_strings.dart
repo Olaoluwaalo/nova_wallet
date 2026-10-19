@@ -78,6 +78,8 @@ class AppStrings {
   static const String targetAmount = 'Target amount';
   static const String targetDate = 'Target date';
   static const String createGoalCta = 'Create goal';
+  static const String createGoalOfflineMessage =
+      'Connect to the internet to create a new savings goal.';
   static const String savedSoFar = 'Saved so far';
   static const String addMoney = 'Add money';
   static const String other = 'Other';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nova/core/constants/app_strings.dart';
 import 'package:nova/core/money/balance_service.dart';
 import 'package:nova/core/money/kobo.dart';
 import 'package:nova/core/offline/sync_controller.dart';
@@ -145,19 +146,42 @@ class NovaSaveController extends GetxController {
     }
     isLoading.value = true;
     try {
-      await _repository.createGoal(
-        name: goalNameController.text.trim(),
-        targetKobo: targetKobo,
-        targetDate: date!,
-      );
-      goalNameController.clear();
-      targetAmountController.clear();
-      targetDate.value = null;
-      await loadGoals();
-      Get.back<void>();
+      if (!await _isApiReachable()) {
+        _showCreateGoalOfflineMessage();
+        return;
+      }
+
+      try {
+        await _repository.createGoal(
+          name: goalNameController.text.trim(),
+          targetKobo: targetKobo,
+          targetDate: date!,
+        );
+        goalNameController.clear();
+        targetAmountController.clear();
+        targetDate.value = null;
+        await loadGoals();
+        Get.back<void>();
+      } on Object catch (error) {
+        if (isTransientApiError(error)) {
+          _showCreateGoalOfflineMessage();
+        } else {
+          showNovaMessage('Failed', 'Could not create goal. Please try again.');
+        }
+      }
     } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<bool> _isApiReachable() async {
+    return (await _connectivity.isOnline) &&
+        !_api.isForcedOffline &&
+        await _api.checkReachable();
+  }
+
+  void _showCreateGoalOfflineMessage() {
+    showNovaMessage(AppStrings.offlineTitle, AppStrings.createGoalOfflineMessage);
   }
 
   void selectGoalForContribution(SavingsGoal goal) {
