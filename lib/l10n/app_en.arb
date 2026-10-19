@@ -1,0 +1,8 @@
+{
+  "@@locale": "en",
+  "sendMoneyTitle": "Send money",
+  "recipientLabel": "Recipient",
+  "amountLabel": "Amount",
+  "confirmSend": "Confirm send",
+  "pendingWillSend": "Pending — will send when back online"
+}

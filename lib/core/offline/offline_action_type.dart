@@ -1,0 +1,4 @@
+enum OfflineActionType {
+  sendMoney,
+  contributeGoal,
+}
