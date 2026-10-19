@@ -34,7 +34,7 @@ class TransactionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = _TileStyle.resolve(type, status);
-    final amountText = '${_credit ? '+' : '-'}${amountKobo.toNaira()}';
+    final amountText = amountKobo.toNaira();
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),

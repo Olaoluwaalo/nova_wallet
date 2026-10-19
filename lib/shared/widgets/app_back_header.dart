@@ -33,34 +33,33 @@ class AppBackHeader extends StatelessWidget {
               width: kMinInteractiveDimension,
               height: kMinInteractiveDimension,
               child: Icon(
-                Icons.arrow_back_ios_new_rounded,
+                Icons.arrow_back,
                 size: 20.sp,
+                weight: 3.w,
+                fill: 1.w,
                 color: AppColors.textPrimary,
               ),
             ),
           ),
         ),
         SizedBox(width: 4.w),
-        Expanded(
-          child: Semantics(
-            header: true,
-            child: Text(
-              title,
-              style: AppTextStyles.textXlSemibold.copyWith(
-                color: AppColors.textPrimary,
-              ),
+        Semantics(
+          header: true,
+          child: Text(
+            title,
+            style: AppTextStyles.textXlSemibold.copyWith(
+              color: AppColors.textPrimary,
             ),
           ),
         ),
         if (trailing != null) ...[
-          SizedBox(width: 8.w),
-          Flexible(
-            child: Text(
-              trailing!,
-              textAlign: TextAlign.end,
-              style: AppTextStyles.textXsRegular.copyWith(
-                color: AppColors.textSecondary,
-              ),
+          Spacer(),
+
+          Text(
+            trailing!,
+            textAlign: TextAlign.end,
+            style: AppTextStyles.textXsRegular.copyWith(
+              color: AppColors.textSecondary,
             ),
           ),
         ],

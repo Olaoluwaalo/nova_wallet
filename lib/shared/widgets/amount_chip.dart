@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nova/core/theme/app_colors.dart';
 import 'package:nova/core/theme/app_text_styles.dart';
 
-/// Quick-pick chip (₦5,000 / ₦10,000 / Other). Use inside a [Wrap] so it
-/// reflows at large font scales.
 class AmountChip extends StatelessWidget {
   const AmountChip({
     super.key,
